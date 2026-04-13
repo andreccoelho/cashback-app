@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cashback Nology</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --verde:    #00e676;
-      --verde-esc:#00b248;
-      --fundo:    #0a0f0d;
-      --card:     #111a14;
-      --borda:    #1e2f21;
-      --texto:    #e8f5e9;
-      --muted:    #6a917a;
-      --vip:      #ffd600;
+      --primario:     rgb(14, 178, 174);
+      --primario-esc: rgb(10, 140, 136);
+      --azul:         rgb(23, 41, 69);
+      --fundo:        rgb(245, 247, 250);
+      --branco:       rgb(255, 255, 255);
+      --borda:        rgba(23, 41, 69, 0.12);
+      --texto:        rgb(23, 41, 69);
+      --muted:        rgba(23, 41, 69, 0.45);
+      --erro:         rgb(220, 53, 69);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,192 +24,195 @@
     body {
       background: var(--fundo);
       color: var(--texto);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Open Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 1rem 4rem;
+      padding: 0 1rem 4rem;
     }
 
-    /* ── Noise overlay ── */
-    body::before {
+    .topbar {
+      width: 100%;
+      background: var(--branco);
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 1px 4px rgba(23,41,69,.06);
+    }
+    .topbar img { height: 32px; }
+
+    .conteudo { width: 100%; max-width: 520px; }
+
+    header { margin-bottom: 2rem; }
+    .header-card {
+      background: var(--azul);
+      border-radius: 16px;
+      padding: 2rem 2rem 2.2rem;
+      color: var(--branco);
+      position: relative;
+      overflow: hidden;
+    }
+    .header-card::after {
       content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0; opacity: .5;
+      position: absolute; right: -40px; top: -40px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(14,178,174,.15);
     }
-
-    .conteudo { position: relative; z-index: 1; width: 100%; max-width: 540px; }
-
-    /* ── Header ── */
-    header { text-align: center; margin-bottom: 3rem; }
-    .logo-tag {
+    .header-card::before {
+      content: '';
+      position: absolute; right: 40px; bottom: -50px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: rgba(14,178,174,.1);
+    }
+    .header-tag {
       display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .15em;
-      color: var(--verde);
-      border: 1px solid var(--verde);
-      padding: .25rem .75rem;
-      border-radius: 2px;
-      margin-bottom: 1.25rem;
-      text-transform: uppercase;
+      background: rgba(14,178,174,.2);
+      color: var(--primario);
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .3rem .75rem; border-radius: 4px; margin-bottom: 1rem;
     }
-    h1 {
-      font-size: clamp(2.2rem, 8vw, 3.5rem);
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -.03em;
-    }
-    h1 span { color: var(--verde); }
-    .subtitulo { margin-top: .6rem; color: var(--muted); font-size: .95rem; }
+    .header-titulo { font-size: clamp(1.8rem, 7vw, 2.6rem); font-weight: 800; line-height: 1.1; position: relative; z-index: 1; }
+    .header-titulo span { color: var(--primario); }
+    .header-subtitulo { margin-top: .5rem; font-size: .9rem; color: rgba(255,255,255,.6); position: relative; z-index: 1; }
 
-    /* ── Card ── */
     .card {
-      background: var(--card);
+      background: var(--branco);
       border: 1px solid var(--borda);
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 12px rgba(23,41,69,.06);
     }
     .card-titulo {
-      font-size: .7rem;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.4rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .card-titulo::before {
+      content: ''; display: inline-block;
+      width: 3px; height: 14px;
+      background: var(--primario); border-radius: 2px;
     }
 
-    /* ── Seletor de tipo ── */
-    .seletor-tipo { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.5rem; }
+    .seletor-tipo { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.4rem; }
     .btn-tipo {
       background: transparent;
-      border: 1px solid var(--borda);
-      color: var(--muted);
-      border-radius: 8px;
-      padding: .9rem;
-      cursor: pointer;
-      font-family: 'Syne', sans-serif;
-      font-size: .95rem;
-      font-weight: 700;
-      transition: all .2s;
+      border: 1.5px solid var(--borda);
+      color: var(--muted); border-radius: 10px; padding: .85rem;
+      cursor: pointer; font-family: 'Open Sans', sans-serif;
+      font-size: .9rem; font-weight: 700; transition: all .2s;
       display: flex; align-items: center; justify-content: center; gap: .5rem;
     }
-    .btn-tipo.ativo-normal { border-color: var(--verde); color: var(--verde); background: rgba(0,230,118,.07); }
-    .btn-tipo.ativo-vip    { border-color: var(--vip);   color: var(--vip);   background: rgba(255,214,0,.07); }
+    .btn-tipo:hover { border-color: var(--primario); color: var(--texto); }
+    .btn-tipo.ativo-normal,
+    .btn-tipo.ativo-vip { border-color: var(--primario); color: var(--primario); background: rgba(14,178,174,.07); }
 
-    /* ── Input de valor ── */
-    .grupo-input { position: relative; margin-bottom: 1.5rem; }
+    .campo-label { display: block; font-size: .8rem; font-weight: 600; color: var(--texto); margin-bottom: .5rem; }
+
+    .grupo-input { position: relative; margin-bottom: 1.4rem; }
     .prefixo {
       position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-      font-family: 'DM Mono', monospace; color: var(--muted); font-size: 1rem;
-      pointer-events: none;
+      font-weight: 700; color: var(--muted); font-size: .95rem; pointer-events: none;
     }
     input[type="number"] {
-      width: 100%;
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--borda);
-      border-radius: 8px;
-      padding: .9rem 1rem .9rem 2.5rem;
-      color: var(--texto);
-      font-family: 'DM Mono', monospace;
-      font-size: 1.1rem;
-      outline: none;
-      transition: border-color .2s;
+      width: 100%; background: var(--fundo);
+      border: 1.5px solid var(--borda); border-radius: 10px;
+      padding: .85rem 1rem .85rem 2.6rem;
+      color: var(--texto); font-family: 'Open Sans', sans-serif;
+      font-size: 1rem; font-weight: 600; outline: none;
+      transition: border-color .2s, box-shadow .2s;
       -moz-appearance: textfield;
     }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-    input[type="number"]:focus { border-color: var(--verde); }
+    input[type="number"]:focus { border-color: var(--primario); box-shadow: 0 0 0 3px rgba(14,178,174,.15); }
 
-    /* ── Botão calcular ── */
     .btn-calcular {
-      width: 100%;
-      background: var(--verde);
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: .05em;
-      cursor: pointer;
-      transition: background .2s, transform .1s;
+      width: 100%; background: var(--primario); color: #fff; border: none;
+      border-radius: 10px; padding: .95rem;
+      font-family: 'Open Sans', sans-serif; font-size: .95rem; font-weight: 700;
+      letter-spacing: .03em; cursor: pointer;
+      transition: background .2s, transform .1s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(14,178,174,.35);
     }
-    .btn-calcular:hover  { background: var(--verde-esc); }
+    .btn-calcular:hover  { background: var(--primario-esc); box-shadow: 0 4px 18px rgba(14,178,174,.45); }
     .btn-calcular:active { transform: scale(.98); }
-    .btn-calcular:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-calcular:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
 
-    /* ── Resultado ── */
     .resultado {
-      display: none;
-      background: var(--card);
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
+      display: none; background: var(--branco);
+      border: 1px solid var(--borda); border-radius: 14px;
+      padding: 1.75rem; margin-bottom: 1.25rem;
+      text-align: center; box-shadow: 0 2px 12px rgba(23,41,69,.06);
     }
     .resultado.visivel { display: block; animation: surgir .35s ease; }
     @keyframes surgir { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:translateY(0) } }
-    .resultado-label { font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
-    .resultado-valor {
-      font-size: 3rem; font-weight: 800; letter-spacing: -.04em;
-      color: var(--verde); margin: .4rem 0;
+    .resultado-topo { display: flex; align-items: center; justify-content: center; gap: .5rem; margin-bottom: .75rem; }
+    .resultado-icone {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(14,178,174,.12);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
     }
-    .resultado-valor.vip-cor { color: var(--vip); }
+    .resultado-label { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .resultado-divider { width: 40px; height: 3px; background: var(--primario); border-radius: 2px; margin: .75rem auto; }
+    .resultado-valor { font-size: 2.8rem; font-weight: 800; color: var(--primario); margin: .25rem 0; line-height: 1; }
     .resultado-detalhe { font-size: .85rem; color: var(--muted); }
 
-    /* ── Histórico ── */
     .historico-lista { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
     .historico-item {
       display: flex; align-items: center; justify-content: space-between;
-      border: 1px solid var(--borda); border-radius: 8px; padding: .75rem 1rem;
-      font-size: .9rem; transition: border-color .2s;
+      border: 1.5px solid var(--borda); border-radius: 10px; padding: .8rem 1rem;
+      font-size: .88rem; transition: border-color .2s, box-shadow .2s;
     }
-    .historico-item:hover { border-color: var(--muted); }
-    .historico-item-esq { display: flex; flex-direction: column; gap: .15rem; }
-    .badge {
-      display: inline-block; font-family: 'DM Mono', monospace;
-      font-size: .65rem; letter-spacing: .1em; padding: .15rem .45rem;
-      border-radius: 3px; text-transform: uppercase; font-weight: 500;
-    }
-    .badge-normal { background: rgba(0,230,118,.15); color: var(--verde); }
-    .badge-vip    { background: rgba(255,214,0,.15);  color: var(--vip); }
-    .historico-data { font-family: 'DM Mono', monospace; font-size: .7rem; color: var(--muted); }
+    .historico-item:hover { border-color: var(--primario); box-shadow: 0 2px 8px rgba(14,178,174,.1); }
+    .historico-item-esq { display: flex; flex-direction: column; gap: .2rem; }
+    .badge { display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .08em; padding: .2rem .55rem; border-radius: 4px; text-transform: uppercase; }
+    .badge-normal { background: rgba(14,178,174,.12); color: var(--primario); }
+    .badge-vip    { background: rgba(23,41,69,.1); color: var(--azul); }
+    .historico-data { font-size: .7rem; color: var(--muted); }
     .historico-valores { text-align: right; }
-    .historico-cashback { font-weight: 700; color: var(--verde); }
-    .historico-cashback.vip-cor { color: var(--vip); }
-    .historico-compra { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--muted); }
-    .vazio { text-align: center; color: var(--muted); font-size: .9rem; padding: 1.5rem 0; }
-    .carregando { text-align: center; color: var(--muted); font-size: .85rem; padding: 1rem 0;
-      font-family: 'DM Mono', monospace; animation: pulsar 1.2s infinite; }
-    @keyframes pulsar { 0%,100%{opacity:.4} 50%{opacity:1} }
+    .historico-cashback { font-weight: 700; color: var(--primario); }
+    .historico-compra { font-size: .75rem; color: var(--muted); margin-top: .1rem; }
+    .vazio { text-align: center; color: var(--muted); font-size: .88rem; padding: 1.5rem 0; }
+    .carregando { text-align: center; color: var(--muted); font-size: .85rem; padding: 1rem 0; animation: pulsar 1.2s infinite; }
+    @keyframes pulsar { 0%,100%{opacity:.35} 50%{opacity:1} }
 
-    /* ── Erro ── */
     .erro-msg {
-      display: none; background: rgba(255,82,82,.1); border: 1px solid rgba(255,82,82,.3);
-      color: #ff5252; border-radius: 8px; padding: .8rem 1rem;
-      font-size: .85rem; margin-top: .75rem; text-align: center;
+      display: none; background: rgba(220,53,69,.07); border: 1px solid rgba(220,53,69,.25);
+      color: var(--erro); border-radius: 8px; padding: .75rem 1rem;
+      font-size: .83rem; margin-top: .75rem; text-align: center; font-weight: 600;
     }
     .erro-msg.visivel { display: block; }
+
+    footer { margin-top: 2rem; text-align: center; font-size: .75rem; color: var(--muted); }
   </style>
 </head>
 <body>
+
+  <div class="topbar">
+    <img src="logo-nology.webp" alt="Nology" />
+  </div>
+
   <div class="conteudo">
+
     <header>
-      <div class="logo-tag">Nology Fintech</div>
-      <h1>Cash<span>back</span></h1>
-      <p class="subtitulo">Calcule o cashback de acordo com o seu perfil</p>
+      <div class="header-card">
+        <div class="header-tag">Programa de Fidelidade</div>
+        <h1 class="header-titulo">Simule seu <span>Cashback</span></h1>
+        <p class="header-subtitulo">Insira o tipo de cliente e o valor da compra para calcular o retorno</p>
+      </div>
     </header>
 
-    <!-- Formulário -->
     <div class="card">
-      <p class="card-titulo">// Nova consulta</p>
+      <p class="card-titulo">Nova consulta</p>
 
+      <label class="campo-label">Tipo de cliente</label>
       <div class="seletor-tipo">
         <button class="btn-tipo ativo-normal" id="btn-normal" onclick="selecionarTipo('NORMAL')">
           👤 Normal
@@ -218,6 +222,7 @@
         </button>
       </div>
 
+      <label class="campo-label" for="valor-compra">Valor da compra</label>
       <div class="grupo-input">
         <span class="prefixo">R$</span>
         <input type="number" id="valor-compra" placeholder="0,00" min="0" step="0.01" />
@@ -229,28 +234,29 @@
       <div class="erro-msg" id="erro-msg"></div>
     </div>
 
-    <!-- Resultado -->
     <div class="resultado" id="resultado">
-      <div class="resultado-label">Seu cashback</div>
+      <div class="resultado-topo">
+        <div class="resultado-icone">💰</div>
+        <div class="resultado-label">Seu cashback</div>
+      </div>
+      <div class="resultado-divider"></div>
       <div class="resultado-valor" id="resultado-valor">R$ 0,00</div>
       <div class="resultado-detalhe" id="resultado-detalhe"></div>
     </div>
 
-    <!-- Histórico -->
     <div class="card">
-      <p class="card-titulo">// Histórico do seu IP</p>
+      <p class="card-titulo">Histórico do seu IP</p>
       <ul class="historico-lista" id="historico-lista">
         <li class="carregando">carregando...</li>
       </ul>
     </div>
+
+    <footer>© 2026 Nology Fintech · Programa de Cashback</footer>
   </div>
 
   <script>
-    // ── CONFIGURAÇÃO ────────────────────────────────────────────────────────
-    // Troque pela URL do seu backend hospedado:
     const URL_API = 'https://cashback-app-plhb.onrender.com';
 
-    // ── Estado ──────────────────────────────────────────────────────────────
     let tipoSelecionado = 'NORMAL';
 
     function selecionarTipo(tipo) {
@@ -261,7 +267,6 @@
         'btn-tipo' + (tipo === 'VIP' ? ' ativo-vip' : '');
     }
 
-    // ── Calcular ────────────────────────────────────────────────────────────
     async function calcular() {
       const valorInput = parseFloat(document.getElementById('valor-compra').value);
       const erroEl     = document.getElementById('erro-msg');
@@ -283,14 +288,12 @@
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ tipo_cliente: tipoSelecionado, valor_compra: valorInput }),
         });
-
         const dados = await resposta.json();
         if (dados.erro) throw new Error(dados.erro);
-
         exibirResultado(dados);
         await carregarHistorico();
       } catch (e) {
-        erroEl.textContent = 'Erro ao conectar com o servidor. Verifique a URL_API.';
+        erroEl.textContent = 'Erro ao conectar com o servidor. Tente novamente.';
         erroEl.className = 'erro-msg visivel';
       } finally {
         btn.disabled = false;
@@ -299,21 +302,17 @@
     }
 
     function exibirResultado(dados) {
-      const el       = document.getElementById('resultado');
-      const valorEl  = document.getElementById('resultado-valor');
-      const detEl    = document.getElementById('resultado-detalhe');
-
+      const el      = document.getElementById('resultado');
+      const valorEl = document.getElementById('resultado-valor');
+      const detEl   = document.getElementById('resultado-detalhe');
       valorEl.textContent = `R$ ${dados.cashback.toFixed(2).replace('.', ',')}`;
-      valorEl.className   = 'resultado-valor' + (dados.tipo_cliente === 'VIP' ? ' vip-cor' : '');
       detEl.textContent   = `Compra de R$ ${dados.valor_compra.toFixed(2).replace('.', ',')} · Cliente ${dados.tipo_cliente}`;
       el.className = 'resultado visivel';
     }
 
-    // ── Histórico ───────────────────────────────────────────────────────────
     async function carregarHistorico() {
       const lista = document.getElementById('historico-lista');
       lista.innerHTML = '<li class="carregando">carregando...</li>';
-
       try {
         const resposta = await fetch(`${URL_API}/historico`);
         const dados    = await resposta.json();
@@ -325,12 +324,10 @@
 
     function renderizarHistorico(itens) {
       const lista = document.getElementById('historico-lista');
-
       if (!itens || itens.length === 0) {
         lista.innerHTML = '<li class="vazio">Nenhuma consulta registrada ainda.</li>';
         return;
       }
-
       lista.innerHTML = itens.map(item => `
         <li class="historico-item">
           <div class="historico-item-esq">
@@ -338,21 +335,17 @@
             <span class="historico-data">${item.criado_em}</span>
           </div>
           <div class="historico-valores">
-            <div class="historico-cashback ${item.tipo_cliente === 'VIP' ? 'vip-cor' : ''}">
-              +R$ ${item.cashback.toFixed(2).replace('.', ',')}
-            </div>
+            <div class="historico-cashback">+R$ ${item.cashback.toFixed(2).replace('.', ',')}</div>
             <div class="historico-compra">compra: R$ ${item.valor_compra.toFixed(2).replace('.', ',')}</div>
           </div>
         </li>
       `).join('');
     }
 
-    // ── Atalho: Enter no input ──────────────────────────────────────────────
     document.getElementById('valor-compra').addEventListener('keydown', e => {
       if (e.key === 'Enter') calcular();
     });
 
-    // Carrega histórico ao abrir a página
     carregarHistorico();
   </script>
 </body>
