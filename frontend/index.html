@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cashback Nology</title>
+  <link rel="icon" type="image/jpeg" href="favicon-nology.jfif" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -195,140 +196,140 @@
 </head>
 <body>
 
-  <div class="topbar">
-    <img src="logo-nology.webp" alt="Nology" />
-  </div>
+<div class="topbar">
+  <img src="logo-nology.webp" alt="Nology" />
+</div>
 
-  <div class="conteudo">
+<div class="conteudo">
 
-    <header>
-      <div class="header-card">
-        <div class="header-tag">Programa de Fidelidade</div>
-        <h1 class="header-titulo">Simule seu <span>Cashback</span></h1>
-        <p class="header-subtitulo">Insira o tipo de cliente e o valor da compra para calcular o retorno</p>
-      </div>
-    </header>
+  <header>
+    <div class="header-card">
+      <div class="header-tag">Desafio Nology – Estagiário de Dev</div>
+      <h1 class="header-titulo">Simule seu <span>Cashback</span></h1>
+      <p class="header-subtitulo">Insira o tipo de cliente e o valor da compra para calcular o retorno</p>
+    </div>
+  </header>
 
-    <div class="card">
-      <p class="card-titulo">Nova consulta</p>
+  <div class="card">
+    <p class="card-titulo">Nova consulta</p>
 
-      <label class="campo-label">Tipo de cliente</label>
-      <div class="seletor-tipo">
-        <button class="btn-tipo ativo-normal" id="btn-normal" onclick="selecionarTipo('NORMAL')">
-          👤 Normal
-        </button>
-        <button class="btn-tipo" id="btn-vip" onclick="selecionarTipo('VIP')">
-          ⭐ VIP
-        </button>
-      </div>
-
-      <label class="campo-label" for="valor-compra">Valor da compra</label>
-      <div class="grupo-input">
-        <span class="prefixo">R$</span>
-        <input type="number" id="valor-compra" placeholder="0,00" min="0" step="0.01" />
-      </div>
-
-      <button class="btn-calcular" id="btn-calcular" onclick="calcular()">
-        Calcular Cashback
+    <label class="campo-label">Tipo de cliente</label>
+    <div class="seletor-tipo">
+      <button class="btn-tipo ativo-normal" id="btn-normal" onclick="selecionarTipo('NORMAL')">
+        👤 Normal
       </button>
-      <div class="erro-msg" id="erro-msg"></div>
+      <button class="btn-tipo" id="btn-vip" onclick="selecionarTipo('VIP')">
+        ⭐ VIP
+      </button>
     </div>
 
-    <div class="resultado" id="resultado">
-      <div class="resultado-topo">
-        <div class="resultado-icone">💰</div>
-        <div class="resultado-label">Seu cashback</div>
-      </div>
-      <div class="resultado-divider"></div>
-      <div class="resultado-valor" id="resultado-valor">R$ 0,00</div>
-      <div class="resultado-detalhe" id="resultado-detalhe"></div>
+    <label class="campo-label" for="valor-compra">Valor da compra</label>
+    <div class="grupo-input">
+      <span class="prefixo">R$</span>
+      <input type="number" id="valor-compra" placeholder="0,00" min="0" step="0.01" />
     </div>
 
-    <div class="card">
-      <p class="card-titulo">Histórico do seu IP</p>
-      <ul class="historico-lista" id="historico-lista">
-        <li class="carregando">carregando...</li>
-      </ul>
-    </div>
-
-    <footer>© 2026 Nology Fintech · Programa de Cashback</footer>
+    <button class="btn-calcular" id="btn-calcular" onclick="calcular()">
+      Calcular Cashback
+    </button>
+    <div class="erro-msg" id="erro-msg"></div>
   </div>
 
-  <script>
-    const URL_API = 'https://cashback-app-plhb.onrender.com';
+  <div class="resultado" id="resultado">
+    <div class="resultado-topo">
+      <div class="resultado-icone">💰</div>
+      <div class="resultado-label">Seu cashback</div>
+    </div>
+    <div class="resultado-divider"></div>
+    <div class="resultado-valor" id="resultado-valor">R$ 0,00</div>
+    <div class="resultado-detalhe" id="resultado-detalhe"></div>
+  </div>
 
-    let tipoSelecionado = 'NORMAL';
+  <div class="card">
+    <p class="card-titulo">Histórico do seu IP</p>
+    <ul class="historico-lista" id="historico-lista">
+      <li class="carregando">carregando...</li>
+    </ul>
+  </div>
 
-    function selecionarTipo(tipo) {
-      tipoSelecionado = tipo;
-      document.getElementById('btn-normal').className =
-        'btn-tipo' + (tipo === 'NORMAL' ? ' ativo-normal' : '');
-      document.getElementById('btn-vip').className =
-        'btn-tipo' + (tipo === 'VIP' ? ' ativo-vip' : '');
+  <footer>© 2026 Nology Fintech · Programa de Cashback</footer>
+</div>
+
+<script>
+  const URL_API = 'https://cashback-app-plhb.onrender.com';
+
+  let tipoSelecionado = 'NORMAL';
+
+  function selecionarTipo(tipo) {
+    tipoSelecionado = tipo;
+    document.getElementById('btn-normal').className =
+            'btn-tipo' + (tipo === 'NORMAL' ? ' ativo-normal' : '');
+    document.getElementById('btn-vip').className =
+            'btn-tipo' + (tipo === 'VIP' ? ' ativo-vip' : '');
+  }
+
+  async function calcular() {
+    const valorInput = parseFloat(document.getElementById('valor-compra').value);
+    const erroEl     = document.getElementById('erro-msg');
+    erroEl.className = 'erro-msg';
+
+    if (!valorInput || valorInput <= 0) {
+      erroEl.textContent = 'Informe um valor de compra válido.';
+      erroEl.className = 'erro-msg visivel';
+      return;
     }
 
-    async function calcular() {
-      const valorInput = parseFloat(document.getElementById('valor-compra').value);
-      const erroEl     = document.getElementById('erro-msg');
-      erroEl.className = 'erro-msg';
+    const btn = document.getElementById('btn-calcular');
+    btn.disabled = true;
+    btn.textContent = 'Calculando...';
 
-      if (!valorInput || valorInput <= 0) {
-        erroEl.textContent = 'Informe um valor de compra válido.';
-        erroEl.className = 'erro-msg visivel';
-        return;
-      }
-
-      const btn = document.getElementById('btn-calcular');
-      btn.disabled = true;
-      btn.textContent = 'Calculando...';
-
-      try {
-        const resposta = await fetch(`${URL_API}/calcular`, {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ tipo_cliente: tipoSelecionado, valor_compra: valorInput }),
-        });
-        const dados = await resposta.json();
-        if (dados.erro) throw new Error(dados.erro);
-        exibirResultado(dados);
-        await carregarHistorico();
-      } catch (e) {
-        erroEl.textContent = 'Erro ao conectar com o servidor. Tente novamente.';
-        erroEl.className = 'erro-msg visivel';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Calcular Cashback';
-      }
+    try {
+      const resposta = await fetch(`${URL_API}/calcular`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ tipo_cliente: tipoSelecionado, valor_compra: valorInput }),
+      });
+      const dados = await resposta.json();
+      if (dados.erro) throw new Error(dados.erro);
+      exibirResultado(dados);
+      await carregarHistorico();
+    } catch (e) {
+      erroEl.textContent = 'Erro ao conectar com o servidor. Tente novamente.';
+      erroEl.className = 'erro-msg visivel';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Calcular Cashback';
     }
+  }
 
-    function exibirResultado(dados) {
-      const el      = document.getElementById('resultado');
-      const valorEl = document.getElementById('resultado-valor');
-      const detEl   = document.getElementById('resultado-detalhe');
-      valorEl.textContent = `R$ ${dados.cashback.toFixed(2).replace('.', ',')}`;
-      detEl.textContent   = `Compra de R$ ${dados.valor_compra.toFixed(2).replace('.', ',')} · Cliente ${dados.tipo_cliente}`;
-      el.className = 'resultado visivel';
+  function exibirResultado(dados) {
+    const el      = document.getElementById('resultado');
+    const valorEl = document.getElementById('resultado-valor');
+    const detEl   = document.getElementById('resultado-detalhe');
+    valorEl.textContent = `R$ ${dados.cashback.toFixed(2).replace('.', ',')}`;
+    detEl.textContent   = `Compra de R$ ${dados.valor_compra.toFixed(2).replace('.', ',')} · Cliente ${dados.tipo_cliente}`;
+    el.className = 'resultado visivel';
+  }
+
+  async function carregarHistorico() {
+    const lista = document.getElementById('historico-lista');
+    lista.innerHTML = '<li class="carregando">carregando...</li>';
+    try {
+      const resposta = await fetch(`${URL_API}/historico`);
+      const dados    = await resposta.json();
+      renderizarHistorico(dados.historico);
+    } catch {
+      lista.innerHTML = '<li class="vazio">Não foi possível carregar o histórico.</li>';
     }
+  }
 
-    async function carregarHistorico() {
-      const lista = document.getElementById('historico-lista');
-      lista.innerHTML = '<li class="carregando">carregando...</li>';
-      try {
-        const resposta = await fetch(`${URL_API}/historico`);
-        const dados    = await resposta.json();
-        renderizarHistorico(dados.historico);
-      } catch {
-        lista.innerHTML = '<li class="vazio">Não foi possível carregar o histórico.</li>';
-      }
+  function renderizarHistorico(itens) {
+    const lista = document.getElementById('historico-lista');
+    if (!itens || itens.length === 0) {
+      lista.innerHTML = '<li class="vazio">Nenhuma consulta registrada ainda.</li>';
+      return;
     }
-
-    function renderizarHistorico(itens) {
-      const lista = document.getElementById('historico-lista');
-      if (!itens || itens.length === 0) {
-        lista.innerHTML = '<li class="vazio">Nenhuma consulta registrada ainda.</li>';
-        return;
-      }
-      lista.innerHTML = itens.map(item => `
+    lista.innerHTML = itens.map(item => `
         <li class="historico-item">
           <div class="historico-item-esq">
             <span class="badge badge-${item.tipo_cliente.toLowerCase()}">${item.tipo_cliente}</span>
@@ -340,13 +341,13 @@
           </div>
         </li>
       `).join('');
-    }
+  }
 
-    document.getElementById('valor-compra').addEventListener('keydown', e => {
-      if (e.key === 'Enter') calcular();
-    });
+  document.getElementById('valor-compra').addEventListener('keydown', e => {
+    if (e.key === 'Enter') calcular();
+  });
 
-    carregarHistorico();
-  </script>
+  carregarHistorico();
+</script>
 </body>
 </html>
