@@ -3,7 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import psycopg2
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+FUSO_BRASIL = ZoneInfo("America/Sao_Paulo")
 
 app = FastAPI(title="API de Cashback")
 
@@ -118,7 +121,7 @@ def historico(request: Request):
             "tipo_cliente": linha[0],
             "valor_compra": float(linha[1]),
             "cashback":     float(linha[2]),
-            "criado_em":    linha[3].strftime("%d/%m/%Y %H:%M"),
+            "criado_em":    linha[3].replace(tzinfo=timezone.utc).astimezone(FUSO_BRASIL).strftime("%d/%m/%Y %H:%M"),
         }
         for linha in linhas
     ]
