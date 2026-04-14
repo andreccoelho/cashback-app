@@ -47,18 +47,17 @@ LIMITE_DOBRAR_CASHBACK   = 500.0
 
 def calcular_cashback(tipo_cliente: str, valor_compra: float) -> float:
     """
-    Regras (dos 3 documentos):
-    1. Cashback base = 5% do valor final (após descontos)
-    2. Compras acima de R$500 → dobra o cashback (vale para todos)
-    3. Clientes VIP → +10% sobre o cashback base (aplicado depois do dobro)
+    1. Cashback base = 5% do valor final
+    2. Clientes VIP → +10% sobre o cashback base
+    3. Compras acima de R$500 → dobra o cashback total
     """
     cashback = valor_compra * CASHBACK_BASE_PERCENTUAL
 
-    if valor_compra > LIMITE_DOBRAR_CASHBACK:
-        cashback *= 2
-
     if tipo_cliente.upper() == "VIP":
-        cashback *= (1 + BONUS_VIP_PERCENTUAL)
+    cashback *= (1 + BONUS_VIP_PERCENTUAL)
+
+    if valor_compra > LIMITE_DOBRAR_CASHBACK:
+    cashback *= 2
 
     return round(cashback, 2)
 
