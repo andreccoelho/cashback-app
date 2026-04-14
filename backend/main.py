@@ -54,10 +54,10 @@ def calcular_cashback(tipo_cliente: str, valor_compra: float) -> float:
     cashback = valor_compra * CASHBACK_BASE_PERCENTUAL
 
     if tipo_cliente.upper() == "VIP":
-    cashback *= (1 + BONUS_VIP_PERCENTUAL)
+        cashback *= (1 + BONUS_VIP_PERCENTUAL)
 
     if valor_compra > LIMITE_DOBRAR_CASHBACK:
-    cashback *= 2
+        cashback *= 2
 
     return round(cashback, 2)
 
